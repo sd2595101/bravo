@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Xiaoshuo;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+use App\Http\Controllers\Controller;
 use App\Business\Crawler\Chapter\Director as ChapterDirector;
 use App\Business\Sites\Zhongheng\Chapter;
 use App\Business\Crawler\Book\Director as BookDirector;
 use App\Business\Sites\Zhongheng\Book;
-
 use App\Business\Crawler\Content\Director as ContentDirector;
 use App\Business\Sites\Zhongheng\Content as ZhonghengContent;
-
 use App\Business\Sites\Other\Content as OtherContent;
-
 use App\Business\Utility\NovelUtility;
+
 
 class ContentController extends Controller
 {
@@ -24,6 +24,8 @@ class ContentController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+    
+    const OTHER_SITE_KEY = 'other2';
 
     /**
      * Create a new controller instance.
@@ -45,6 +47,8 @@ class ContentController extends Controller
      */
     public function index(Request $request, $bookid,$chapterid)
     {
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . "() - start");
+        
         $pjax = $request->header('X-PJAX');
         $view = ($pjax == 'true') ? 'xiaoshuo.pjax.content' : 'xiaoshuo.content';
         
@@ -64,17 +68,10 @@ class ContentController extends Controller
             try {
                 $content = new OtherContent();
                 $director = new ContentDirector($content);
-                $contentData2 = $director->build($bookid, $chapterid, 'other2');
+                $contentData2 = $director->build($bookid, $chapterid, self::OTHER_SITE_KEY);
                 $newContent = $contentData2['content'] ?? ['更新失败,请稍后再试'];
                 $newOriginUrl = $contentData2['original_url'] ?? '';
-                $conly = $contentData2['content'] ?? [];
-                $conly = is_string($conly) ? [$conly] : $conly;
-                
-                $check = implode('',$conly ?? []);
-                if ($check == "") {
-                    ContentDirector::clearCache($bookid, $chapterid, 'other2');
-                }
-                //dump($newContent);
+                self::checkContent($bookid, $chapterid, $contentData2);
                 $contentData['content'] = $newContent;
                 $contentData['original_url'] = $newOriginUrl;
             } catch (\Exception $ex) {
@@ -92,6 +89,9 @@ class ContentController extends Controller
         $chapters = NovelUtility::convertZHChaptersVolumeMerge($list);
         
         $page = $chapters[$chapterid] ?? '';
+        NovelUtility::setBrowsingHistory($bookid, $chapterid);
+        
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . "() - end");
         
         return view($view, array(
             'info' => $contentData,
@@ -100,6 +100,18 @@ class ContentController extends Controller
             'next' => $page['next'] ? $page['next'] . '.html' : '',
         ));
     }
+    
+    private static function checkContent($bookid,$chapterid, $contentData2)
+    {
+        $conly = $contentData2['content'] ?? [];
+        $conly = is_string($conly) ? [$conly] : $conly;
+
+        $check = implode('',$conly ?? []);
+        if ($check == "") {
+            ContentDirector::clearCache($bookid, $chapterid, self::OTHER_SITE_KEY);
+        }
+    }
+    
     
     
     public function ijax($bookid,$chapterid)

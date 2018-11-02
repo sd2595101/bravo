@@ -1,14 +1,40 @@
 <?php
 namespace App\Business\Utility;
+
+use Illuminate\Support\Facades\Cookie;
 use App\Business\Crawler\Book\Director as BookDirector;
 use App\Business\Crawler\Chapter\Director as ChapterDirector;
 use App\Business\Crawler\Content\Director as ContentDirector;
 
+use App\Business\Sites\Zhongheng\Chapter;
+use App\Business\Sites\Zhongheng\Book;
+use App\Business\Sites\Zhongheng\Content as ZhonghengContent;
+use App\Business\Sites\Other\Content as OtherContent;
 
 class NovelUtility
 {
+    const HISTORY_COOKIE_NAME = 'BRAVO-BROWSING-HISTORY';
     
     
+    public static function setBrowsingHistory($bookid, $chapterid)
+    {
+        $history = unserialize(Cookie::get(self::HISTORY_COOKIE_NAME)) ?? [];
+        
+        if (!is_array($history)) {
+            $history = [];
+        }
+        
+        if (!array_key_exists($bookid, $history)) {
+            $history[$bookid] = $chapterid;
+        }
+        Cookie::unqueue(self::HISTORY_COOKIE_NAME);
+        Cookie::queue(self::HISTORY_COOKIE_NAME, serialize($history), 60 * 24 * 365);
+    }
+    
+    public static function getBrowsingHistoryList()
+    {
+        return unserialize(Cookie::get(self::HISTORY_COOKIE_NAME)) ?? [];
+    }
     
     public static function convertZHChaptersVolumeMerge($list)
     {

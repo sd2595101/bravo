@@ -6,6 +6,9 @@
     
   @else
   {{-- show history --}}
+  <ul>
+      
+  </ul>
   @endguest
 </div>
 @endsection

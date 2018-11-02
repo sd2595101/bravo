@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Xiaoshuo;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use BDSpider\BDSpider;
-
+use App\Business\Utility\NovelUtility;
 
 class IndexController extends Controller
 {
@@ -33,8 +33,17 @@ class IndexController extends Controller
     
     private function readHistory()
     {
+        $result = [];
         //$keyword = '剑来';
         //$result = BDSpider::search($keyword);
         //dump($result);
+        $historys = NovelUtility::getBrowsingHistoryList();
+        
+        //dump($historys);
+        
+        foreach($historys as $bookid => $chapterid) {
+            $result[] =  NovelUtility::getZHBookInfo($bookid, $chapterid);
+        }
+        //print_r($result);
     }
 }

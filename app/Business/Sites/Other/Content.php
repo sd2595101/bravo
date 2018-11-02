@@ -2,13 +2,15 @@
 namespace App\Business\Sites\Other;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use App\Business\Crawler\Content\BuilderInterface;
 use QL\QueryList;
 use App\Business\Crawler\Book\Director as BookDirector;
 use App\Business\Crawler\Content\Director as ContentDirector;
 use App\Business\Utility\StringUtility;
 use App\Business\Utility\AI;
-use Illuminate\Support\Facades\Log;
+
+use App\Business\Utility\NovelUtility;
 
 class Content implements BuilderInterface
 {
@@ -18,19 +20,22 @@ class Content implements BuilderInterface
     {
         //return 'http://192.168.56.101/view-source_https___www.prwx.com_book_1265_609664.html';
         
-        Log::info(__CLASS__ . '::' . __METHOD__ . "() == START ==");
+        
+        \App\Business\Utility\NovelUtility::setBrowsingHistory($bookid, $chapterid);
+        
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . "() == START ==");
         $key = self::rawCacheKey($bookid);
         $chapter = ContentDirector::getCache($bookid, $chapterid);
         $chapterTitle = $chapter['title'] = StringUtility::standardizationChapterTitle($chapter['title']);
-        Log::info(__CLASS__ . '::' . __METHOD__ . "() find [{$bookid}][{$chapterid}][$chapterTitle] chapter content url start");
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . "() find [{$bookid}][{$chapterid}][$chapterTitle] chapter content url start");
         
         //exit;
         if (Cache::has($key)) {
-            Log::info(__CLASS__ . '::' . __METHOD__ . "() Has raw_chapter_list Cached . |=>");
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . "() Has raw_chapter_list Cached . |=>");
             $rawlist = Cache::get($key);
             
             $url = AI::findContentUrlByLinks($chapter['title'], $rawlist);
-            Log::info(__CLASS__ . '::' . __METHOD__ . "() result url : {$url}");
+            Log::info(__CLASS__ . '::' . __FUNCTION__ . "() result url : {$url}");
             //dump($rawlist);exit;
             if ($url) {
                 return $url;
@@ -46,14 +51,14 @@ class Content implements BuilderInterface
             }
             return $url;
         }
-        Log::info(__CLASS__ . '::' . __METHOD__ . "() Not raw_chapter_list Cached . |=>");
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . "() Not raw_chapter_list Cached . |=>");
         
         
         return $this->getContentUrl($bookid, $chapterid);
     }
     private static function setCacheRawChapterList($bookid, $list, $capterlisturl)
     {
-        Log::info(__CLASS__ . '::' . __METHOD__ . "() -- start --");
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . "() -- start --");
         $key = self::rawCacheKey($bookid);
         Cache::forever($key, $list);
         $urlKey = self::chapterlistCacheKey($bookid);
@@ -72,7 +77,7 @@ class Content implements BuilderInterface
     
     private function getContentUrl($bookid, $chapterid)
     {
-        Log::info(__CLASS__ . '::' . __METHOD__ . ' == START ==' );
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' == START ==' );
         $book = BookDirector::getCache($bookid);
         $chapter = ContentDirector::getCache($bookid, $chapterid);
         $title = trim($book[ 'title' ]);
@@ -105,7 +110,7 @@ class Content implements BuilderInterface
         );
         // get the book url
         $url = $q[ 0 ] ?? null;
-        Log::info(__CLASS__ . '::' . __METHOD__ . ' SODU search result :  ' . $url );
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . ' SODU search result :  ' . $url );
         
         if (!$url) {
             //dump($queryurl);
@@ -252,7 +257,7 @@ class Content implements BuilderInterface
     
     public static function findChapterByAnyChapterUrl($bookid, $findTitle, $clurl)
     {
-        Log::info(__CLASS__ . '::' . __METHOD__ . "() -- start --" . $clurl);
+        Log::info(__CLASS__ . '::' . __FUNCTION__ . "() -- start --" . $clurl);
         
         
         $clHtml = QueryList::getInstance()->get($clurl)->getHtml();
