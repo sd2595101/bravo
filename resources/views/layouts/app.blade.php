@@ -23,7 +23,10 @@
     <link href="{{ asset('css/add.css') }}" rel="stylesheet">
     
     <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
-    <script src="http://im-bravo.com/vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!--<script src="http://im-bravo.com/vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js"></script>-->
+    <link rel="stylesheet" href="http://im-bravo.com/vendor/laravel-admin/font-awesome/css/font-awesome.min.css">
+    <script src="{{ asset('js/jquery-3.3.1.js') }}" ></script>
+    <script src="{{ asset('js/jquery.pjax.js') }}" ></script>
     
   </head>
   <body class="content-body">
@@ -73,5 +76,6 @@
         @yield('content')
       </main>
     </div>
+    <script src="http://im-bravo.com/vendor/laravel-admin/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>
   </body>
 </html>

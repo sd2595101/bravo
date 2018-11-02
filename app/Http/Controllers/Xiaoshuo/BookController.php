@@ -3,8 +3,8 @@ namespace App\Http\Controllers\Xiaoshuo;
 
 use App\Http\Controllers\Controller;
 //use Illuminate\Http\Request;
-use App\Modules\Crawler\Book\Director;
-use App\Modules\Sites\Zhongheng\Book;
+use App\Business\Crawler\Book\Director;
+use App\Business\Sites\Zhongheng\Book;
 //use Illuminate\Support\Facades\Auth;
 
 use App\Models\Book\Book as EntiteBook;

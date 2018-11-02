@@ -3,8 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use QL\QueryList;
-use App\Modules\Utility\StringUtility;
-use App\Modules\Utility\AI;
+use App\Business\Utility\StringUtility;
+use App\Business\Utility\AI;
 
 
 

@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Xiaoshuo;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\Crawler\Chapter\Director;
-use App\Modules\Sites\Zhongheng\Chapter;
-use App\Modules\Crawler\Book\Director as BookDirector;
-use App\Modules\Sites\Zhongheng\Book;
+use App\Business\Crawler\Chapter\Director;
+use App\Business\Sites\Zhongheng\Chapter;
+use App\Business\Crawler\Book\Director as BookDirector;
+use App\Business\Sites\Zhongheng\Book;
 
 
 class ChapterController extends Controller

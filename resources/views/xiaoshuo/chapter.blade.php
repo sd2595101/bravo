@@ -7,8 +7,8 @@
     <ol class="breadcrumb-bravo">
       <li class="breadcrumb-item-bravo"><a href="/"><span class="glyphicon glyphicon-home"></span></a></li>
       <li class="breadcrumb-item-bravo"><a href="/query?q={{$book['category_name']}}" target="_blank">{{$book['category_name']}}</a></li>
-      <li class="breadcrumb-item-bravo"><a href="{{route('book', $book['bookid'])}}">{{$book['title']}}</a></li>
-      <li class="breadcrumb-item-bravo active">最新章节</li>
+      <li class="breadcrumb-item-bravo"><a href="{{route('book', $book['bookid'])}}"><span class="glyphicon glyphicon-book"></span> {{$book['title']}}</a></li>
+      <li class="breadcrumb-item-bravo"><span class="glyphicon glyphicon-list"></span> 最新章节</li>
     </ol>
   </nav>
   <div class="row center">

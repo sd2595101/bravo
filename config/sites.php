@@ -1,6 +1,6 @@
 <?php
 
-use App\Modules\Utility\StringUtility;
+use App\Business\Utility\StringUtility;
 
 return [
     /*
@@ -350,14 +350,10 @@ return [
         'content' => [
             'roules' => [
                 'content'     => [
-                    '#content, #contents, #BookText',
+                    '#content, #contents, #BookText, body',
                     'html',
-//                    '-script',
-                    '',
+                    '-div,h1,table,script,center,span',
                     function($html) {
-                        
-                        //$html = StringUtility::convertEncoding($html);
-                        //dump($html);exit;
                         $doc = phpQuery::newDocumentHTML($html);
                         $tags = ['div','script'];
                         foreach ($tags as $tag) {
@@ -366,13 +362,15 @@ return [
                         $html = pq($doc)->htmlOuter();
                         $html = trim($html, "\r\n ");
                         $html = str_replace('顶 点 小 说 x 23 u s．c om', '', $html);
+                        $html = str_replace('<br>', "\n", $html);
+                        $ps = explode("\n",$html);
                         
-                        $ps = explode('<br><br>', $html);
                         $ps = array_map(function($pOne){
                             return StringUtility::trim($pOne);
                         }, $ps);
+                        $ps = array_diff($ps, ['']);
                         
-                        return $ps;
+                        return array_values($ps);
                     }
                 ],
                 'title'       => ['.bookname>h1', 'text'],

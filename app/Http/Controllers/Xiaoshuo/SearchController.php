@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Xiaoshuo;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\Crawler\Search\Director as SearchDirector;
-use App\Modules\Sites\Zhongheng\Search as ZhonghengSearch;
+use App\Business\Crawler\Search\Director as SearchDirector;
+use App\Business\Sites\Zhongheng\Search as ZhonghengSearch;
 
 
 class SearchController extends Controller

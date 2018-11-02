@@ -1,42 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+@include('xiaoshuo.parts.content')
 
-<div class="container">
-    <nav aria-label="breadcrumb-bravo">
-      <ol class="breadcrumb-bravo">
-        <li class="breadcrumb-item-bravo"><a href="/"><span class="glyphicon glyphicon-home"></span></a></li>
-        <li class="breadcrumb-item-bravo"><a href="/query?q={{$book['category_name']}}" target="_blank">{{$book['category_name']}}</a></li>
-        <li class="breadcrumb-item-bravo"><a href="{{route('book', $book['bookid'])}}"><span class="glyphicon glyphicon-book"></span> {{$book['title']}}</a></li>
-        <li class="breadcrumb-item-bravo"><a href="{{route('chapter', $book['bookid'])}}"><span class="glyphicon glyphicon-list"></span> 最新章节</a></li>
-        <li class="breadcrumb-item-bravo active" aria-current="page">{{$info['volume']}}</li>
-      </ol>
-    </nav>
-    <div class="chapter_opbox chapter_opbox_top center">
-      <a href="{{route('chapter', $book['bookid'])}}" class="gochapter"><span class="glyphicon glyphicon-list"></span> 目录</a>
-      <a href="{{$prev}}" class="prevchapter"><span class="glyphicon glyphicon-arrow-left"></span> 上一章</a>
-      <a href="{{$next}}" class="nextchapter"><span class="glyphicon glyphicon-arrow-right"></span> 下一章</a>
-    </div>
-    <div class="row center">
-        <div class="col">
-            <h1 class="m-2">{{$info['title']}}</h1>
-        </div>
-    </div>
-    <div class="container">
-      <span class="original-site">源站点链接 : {{$info['original_url']}}</span>
-      <div class="content">
-        @foreach ($info['content'] as $content)
-        <p>{{$content}}</p>
-        @endforeach
-      </div>
-    </div>
-    <div class="chapter_opbox chapter_opbox_bottom center">
-      <a href="{{route('chapter', $book['bookid'])}}" class="gochapter"><span class="glyphicon glyphicon-list"></span> 目录</a>
-      <a href="{{$prev}}" class="prevchapter"><span class="glyphicon glyphicon-arrow-left"></span> 上一章</a>
-      <a href="{{$next}}" class="nextchapter"><span class="glyphicon glyphicon-arrow-right"></span> 下一章</a>
-    </div>
-</div>
-<div id="gotop" title="返回顶部"><a href="javascript:void(0);" onclick="gotop();return false;"><i class="fas fa-2x fa-angle-double-up"></i></a></div>
+<div id="gotop" title="返回顶部"><a href="javascript:void(0);" onclick="gotop();return false;">
+    <i class="fas fa-2x fa-tasks"></i></a></div>
 <script>
     function gotop(){
         console.log('aa');
@@ -44,10 +12,10 @@
     }
 </script>
 <!--<script src="/vendor/laravel-admin/jquery-pjax/jquery.pjax.js"></script>-->
-<!--<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>-->
+<script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
 <!-- REQUIRED JS SCRIPTS -->
-<script src="http://im-bravo.com/vendor/laravel-admin/jquery-pjax/jquery.pjax.js"></script>
-<script src="http://im-bravo.com/vendor/laravel-admin/nprogress/nprogress.js"></script>
+<!--<script src="http://im-bravo.com/vendor/laravel-admin/jquery-pjax/jquery.pjax.js"></script>-->
+<!--<script src="/vendor/laravel-admin/nprogress/nprogress.js"></script>-->
 <script>
 
 $.pjax.defaults.timeout = 5000;
