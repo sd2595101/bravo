@@ -1,0 +1,179 @@
+/*
+ * Globals
+ */
+blockquote, body, button, dd, dl, dt, embed, fieldset, form, h1, h2, h3, h4, h5, h6, h7 input, li, object, ol, pre, table, td, th, ul {
+  font-family: PingFangSC-Regular,HelveticaNeue-Light,'Helvetica Neue Light','Microsoft YaHei',sans-serif,Simsun;
+}
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #0c5460;
+}
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritance from `body` */
+  background-color: #fff;
+  border: .05rem solid #fff;
+}
+
+.center {
+	text-align:center;
+}
+.content p {
+	text-align:left;
+	letter-spacing: 1px;
+    line-height: 2em;
+    text-indent: 2em;
+    padding: .5em .3em;
+}
+/*
+ * Base structure
+ */
+html,
+body {
+  min-height: 100%;
+  background-color: #fff;
+}
+html.h100,
+body.h100 {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: flex;
+  /*color: #fff;*/
+  color: #7b7777;
+}
+
+.cover-container {
+  max-width: 42em;
+}
+
+
+/*
+ * Header
+ */
+.masthead {
+  margin-bottom: 2rem;
+
+}
+
+/* margin-bottom: auto!important; */
+
+.masthead-brand {
+  margin-bottom: 0;
+}
+
+.nav-masthead .nav-link {
+  padding: .25rem 0;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .5);
+  background-color: transparent;
+  border-bottom: .25rem solid transparent;
+}
+
+.nav-masthead .nav-link:hover,
+.nav-masthead .nav-link:focus {
+  border-bottom-color: rgba(255, 255, 255, .25);
+}
+
+.nav-masthead .nav-link + .nav-link {
+  margin-left: 1rem;
+}
+
+.nav-masthead .active {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+@media (min-width: 48em) {
+  .masthead-brand {
+    float: left;
+  }
+  .nav-masthead {
+    float: right;
+  }
+}
+
+
+/*
+ * Cover
+ */
+.cover {
+  padding: 2rem 1.5rem;
+  
+}
+.cover .btn-lg {
+  padding: .75rem 1.25rem;
+  font-weight: 700;
+}
+.cover-up {
+  height:33%;
+  width: 80%;
+}
+
+/*
+ * Footer
+ */
+.mastfoot {
+  color: rgba(255, 255, 255, .5);
+}
+
+.row {
+  
+}
+
+.list .description {
+  /*font-size: 1.0em;*/
+}
+.chapter-col {
+  width:33.33333333%;
+  float: left;
+  text-align: left;
+}
+.chapter-container {
+  clear:both;
+  overflow: auto;
+}
+.tomename {
+  padding: 1.2em 0 0.1em 0;
+}
+.mb-auto-home {
+  margin-bottom: 4%;
+}
+
+.chapter-list {
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 45px;
+    margin-top: 20px;
+}
+
+.col-4 {
+    width: 30%;
+    float: left;
+    padding-right: 60px;
+}
+.chapter-list>* {
+    padding: 11px 0;
+    position: relative;
+    border-bottom: 1px #ccc dotted;
+}
+.chapter-list a {
+    float: left;
+    max-width: 80%;
+    line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+li, ol, ul {
+    list-style: none;
+}
