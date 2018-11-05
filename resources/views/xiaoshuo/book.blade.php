@@ -18,7 +18,7 @@
               <a href="{{route('chapter', $book['bookid'])}}">{{$book['title']}}</a>
             </span>
             <a href="{{route('chapter', $book['bookid'])}}" class="p-1 m-1 text-right text-info">
-             [ <span class="fa glyphicon glyphicon-list"></span> 章节目录 ] </a>
+             [ <span class="glyphicon glyphicon-list"></span> 章节目录 ] </a>
           </div>
           <div class="row">
             <a href="{{$book['ulink']}}" class="p-1 font-weight-light" target="_blank">{{$book['uname']}}</a>

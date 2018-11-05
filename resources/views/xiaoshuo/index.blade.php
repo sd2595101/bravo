@@ -6,9 +6,7 @@
     
   @else
   {{-- show history --}}
-  <ul>
-      
-  </ul>
+  @include('xiaoshuo.parts.history')
   @endguest
 </div>
 @endsection

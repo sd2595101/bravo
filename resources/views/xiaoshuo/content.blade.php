@@ -4,7 +4,7 @@
 @include('xiaoshuo.parts.content')
 
 <div id="gotop" title="返回顶部"><a href="javascript:void(0);" onclick="gotop();return false;">
-    <i class="fas fa-2x fa-tasks"></i></a></div>
+    <i class="glyphicon glyphicon-chevron-up"></i></a></div>
 <script>
     function gotop(){
         console.log('aa');

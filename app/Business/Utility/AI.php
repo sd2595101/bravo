@@ -16,6 +16,7 @@ class AI
         'www.76wx.com',
         'www.81xsw.com',
         'www.sqsxs.com',
+        'www.zhuoyaju.com',
     ];
     
     public static function getBlocksites()

@@ -45,6 +45,7 @@ class BookController extends Controller
             $builder = new Book();
             $director = new Director($builder);
             $info = $director->build($bookid);
+            
             EntiteBook::create($info);
         } else {
             $info = $bookinfodb[0]->toArray();

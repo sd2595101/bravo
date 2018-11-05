@@ -89,7 +89,7 @@ class ContentController extends Controller
         $chapters = NovelUtility::convertZHChaptersVolumeMerge($list);
         
         $page = $chapters[$chapterid] ?? '';
-        NovelUtility::setBrowsingHistory($bookid, $chapterid);
+        NovelUtility::addBrowsingHistory($bookid, $chapterid);
         
         Log::info(__CLASS__ . '::' . __FUNCTION__ . "() - end");
         

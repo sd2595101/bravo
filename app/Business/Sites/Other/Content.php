@@ -21,7 +21,7 @@ class Content implements BuilderInterface
         //return 'http://192.168.56.101/view-source_https___www.prwx.com_book_1265_609664.html';
         
         
-        \App\Business\Utility\NovelUtility::setBrowsingHistory($bookid, $chapterid);
+        //\App\Business\Utility\NovelUtility::setBrowsingHistory($bookid, $chapterid);
         
         Log::info(__CLASS__ . '::' . __FUNCTION__ . "() == START ==");
         $key = self::rawCacheKey($bookid);
@@ -49,6 +49,7 @@ class Content implements BuilderInterface
                     return $this->getContentUrl($bookid, $chapterid);
                 }
             }
+            
             return $url;
         }
         Log::info(__CLASS__ . '::' . __FUNCTION__ . "() Not raw_chapter_list Cached . |=>");
@@ -177,7 +178,6 @@ class Content implements BuilderInterface
                     return $q3;
                 });
             } catch (\Exception $ex) {
-                echo $ex;
                 dump($menuurl);
                 continue;
             }

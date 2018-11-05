@@ -24,7 +24,7 @@ class Director
         $key = self::getCacheKey($bookid);
         //Cache::forget($key);
         if (!Cache::has($key)) {
-            Cache::set($key, $this->rebuild($bookid), 60 * 12);
+            Cache::set($key, $this->rebuild($bookid), 60 * 6);
         }
 
         return Cache::get($key);

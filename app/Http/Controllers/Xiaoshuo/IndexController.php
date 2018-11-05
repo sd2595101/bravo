@@ -23,10 +23,17 @@ class IndexController extends Controller
     public function index()
     {
         $isLogin = !Auth::guest();
+        
+        $historys = [];
+        
         if ($isLogin) {
-            $this->readHistory();
+            try {
+                $historys = $this->readHistory();
+            } catch (\App\Business\Crawler\NoCachedChapterException $ex) {
+                return redirect(route('book', [$ex->getBookId()]));
+            }
         }
-        return view('xiaoshuo.index');
+        return view('xiaoshuo.index', ['historys' => $historys]);
     }
     
     
@@ -34,16 +41,13 @@ class IndexController extends Controller
     private function readHistory()
     {
         $result = [];
-        //$keyword = '剑来';
-        //$result = BDSpider::search($keyword);
-        //dump($result);
+        
         $historys = NovelUtility::getBrowsingHistoryList();
         
-        //dump($historys);
-        
         foreach($historys as $bookid => $chapterid) {
-            $result[] =  NovelUtility::getZHBookInfo($bookid, $chapterid);
+            $result[] =  NovelUtility::getHistoryBookInfo($bookid, $chapterid);
         }
-        //print_r($result);
+        //dump($result);exit;
+        return $result;
     }
 }
