@@ -33,7 +33,10 @@ class NovelUtility
     
     public static function getBrowsingHistoryList()
     {
-        $history = unserialize(Cookie::get(self::HISTORY_COOKIE_NAME)) ?? [];
+        $history = unserialize(Cookie::get(self::HISTORY_COOKIE_NAME));
+        if (!is_array($history)) {
+            $history = [];
+        }
         $res = array_reverse($history, true);
         return $res;
     }
