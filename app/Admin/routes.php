@@ -13,5 +13,7 @@ Route::group([
     $router->get('/', 'HomeController@index');
     // -- added
     $router->resource('crawler/sites', 'SiteController');
+    
+    $router->resource('issues', 'IssueController');
 
 });
