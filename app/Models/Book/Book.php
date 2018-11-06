@@ -27,6 +27,17 @@ class Book extends Model
         "keyword-link",
         "vote_info",
         "desc",
+        // ---------------------------------------------------------------
+        "book_id",
+        "book_info",
+        "book_name",
+        "author",
+        "cate_id",                     // main category id
+        "cate_name",                   // main category name
+        "categorys",                   //  categorys:  [{'cate_id' => '', 'cate_name' => ''} ...]
+        "keywords",                    // add all keyword text in the field.
+        "dramatis_personae",           // 
+        
     ];
 
 }

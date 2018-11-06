@@ -17,7 +17,7 @@
 		    <div class="bookname" title="{{$book['title']}}"><a href="{{route('chapter', $book['bookid'])}}">{{$book['title']}}</a></div>
 		    <p class="info">{{ $book['desc'] }}</p>
 		    <div class="author" title="{{$book['uname']}}">{{$book['uname']}}</div>
-		    <a class="cate" href="http://www.zongheng.com/category/15.html" target="_blank" title="{{ $book['cname'] }}">{{ $book['cname'] }}</a>
+		    <a class="cate" href="{{ route('query',['q'=>$book['cname']]) }}" target="_blank" title="{{ $book['cname'] }}">{{ $book['cname'] }}</a>
 		</div>
 		<div class="latest-browsing"><a href="{{ route('content', [$book['bookid'], $content['chapterid']]) }}" title="{{$content['volume']}}"><div>最近阅读：{{$content['title']}}</div></a>
 		</div>
