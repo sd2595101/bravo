@@ -11,7 +11,7 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
-    //$router->get('/crawler/sites', 'SitesController@index');
-    $router->resource('crawler/sites', 'SitesController');
+    // -- added
+    $router->resource('crawler/sites', 'SiteController');
 
 });

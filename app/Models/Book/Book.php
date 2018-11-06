@@ -36,7 +36,7 @@ class Book extends Model
         "cate_name",                   // main category name
         "categorys",                   //  categorys:  [{'cate_id' => '', 'cate_name' => ''} ...]
         "keywords",                    // add all keyword text in the field.
-        "dramatis_personae",           // 
+        "dramatis_personae",           // zhu ren gong
         
     ];
 

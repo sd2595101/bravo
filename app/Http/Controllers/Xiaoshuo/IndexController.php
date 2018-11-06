@@ -45,9 +45,12 @@ class IndexController extends Controller
         $historys = NovelUtility::getBrowsingHistoryList();
         
         foreach($historys as $bookid => $chapterid) {
-            $result[] =  NovelUtility::getHistoryBookInfo($bookid, $chapterid);
+            $info =  NovelUtility::getHistoryBookInfo($bookid, $chapterid);
+            if (!isset($info['book']['title'])) {
+                continue;
+            }
+            $result[] = $info;
         }
-        //dump($result);exit;
         return $result;
     }
 }
