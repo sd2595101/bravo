@@ -87,13 +87,22 @@ class IssueController extends Controller
         $grid->id('ID')->sortable();
         $grid->subject('Subject')->sortable();
         $grid->status('Status')->badge('blue')->sortable();
-        $grid->created_at('Created at')->sortable();
-        $grid->updated_at('Updated at')->sortable();
+        $grid->detail('Detail')->display(function($v){
+            return nl2br($v);
+        });
         
         $grid->filter(function ($filter) {
             $filter->like('subject', 'Subject');
             $filter->like('status', 'Status');
         });
+        
+        //$grid->disableActions();
+        $grid->disablePagination();
+        
+        $grid->tools->disableBatchActions();
+        $grid->tools->disableFilterButton();
+        $grid->tools->disableRefreshButton();
+        
 
         return $grid;
     }
@@ -130,7 +139,7 @@ class IssueController extends Controller
             // Add an input box of type text
             $form->text('subject', 'subject')->rules('required');
             $form->textarea('detail', 'Detail');
-            $form->select('status', 'Status')->options(['Open'=>'Open','Closed'=>'Closed']);
+            $form->select('status', 'Status')->options(['Open'=>'Open','Closed'=>'Closed'])->rules('required');
             $form->display('created_at', 'Created time');
             $form->display('updated_at', 'Updated time');
         });

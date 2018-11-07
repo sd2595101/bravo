@@ -38,8 +38,10 @@ class ChapterController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function index($bookid)
+    public function index(\Illuminate\Http\Request $request, $bookid)
     {
+        $pjax = $request->header('X-PJAX');
+        $view = ($pjax == 'true') ? 'xiaoshuo.pjax.chapter' : 'xiaoshuo.chapter';
         $chapter = new Chapter();
         $director = new Director($chapter);
         $list = $director->build($bookid);
@@ -52,7 +54,7 @@ class ChapterController extends Controller
         }
         
         
-        return view('xiaoshuo.chapter', array(
+        return view($view, array(
             'list' => $list,
             'book' => $info,
         ));

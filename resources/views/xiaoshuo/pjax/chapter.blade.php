@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-pjax')
 
 @section('content')
 @include('xiaoshuo.parts.chapter')

@@ -9,13 +9,13 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Encore\Admin\Facades\Admin;
-use App\Models\Site as SiteModel;
+use App\Models\Book\TaskRoot as MyModel;
 
-class SiteController extends Controller
+class BookTaskRootController extends Controller
 {
     use HasResourceActions;
     
-    const HEADER = 'Sites';
+    const HEADER = 'Book Task Roots';
 
     /**
      * Index interface.
@@ -30,7 +30,26 @@ class SiteController extends Controller
             ->description('List')
             ->body($this->grid());
     }
-
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function regist($id)
+    {
+        //$data = $this->form()->Content();
+        // 
+        $data = [
+            'status'  => true,
+            'message' => trans('admin.delete_succeeded'),
+        ];
+        
+        return response()->json($data);
+    }
+    
     /**
      * Show interface.
      *
@@ -82,27 +101,18 @@ class SiteController extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new SiteModel);
+        $grid = new Grid(new MyModel);
+        $grid->tools = new \App\Admin\Grid\TaskTools($grid);
 
         $grid->id('ID')->sortable();
-        $grid->name('Site name')->sortable();
-        $grid->url('Site URL')->link()->sortable();
-        $grid->enable('Disabled')->sortable()->using(['1' => '', '0' => 'Disabled'])->badge('red');
-        $grid->official('Official')->sortable()->using(['1' => 'Official', '0' => ''])->badge('blue');
-        $grid->searcheable('Searcheable')->sortable()->using(['1' => 'Search OK', '0' => ''])->display(function($v1, \Encore\Admin\Grid\Column $column, $v3=1){
-            if ($v1 != '') {
-                return "<span class='badge bg-green' title='aa'>$v1</span>";
-            }
-            return '';
-        });
-        
-        $grid->updated_at('Updated at')->sortable();
+        $grid->name('Name')->sortable();
+        $grid->url('URL')->link();
         
         $grid->filter(function ($filter) {
-            $filter->like('name', 'Site name');
+            $filter->like('name', 'Name');
             $filter->like('url', 'URL');
         });
-        
+
         return $grid;
     }
 
@@ -114,21 +124,15 @@ class SiteController extends Controller
      */
     protected function detail($id)
     {
-        $show = new Show(SiteModel::findOrFail($id));
+        $show = new Show(MyModel::findOrFail($id));
 
         $show->id('ID');
-        $show->name('Site Name');
-        $show->url('Site URL');
-        $show->enable('Disabled')->using(['1' => '', '0' => 'Disabled'])->badge('red');
-        $show->official('Official')->using(['1' => 'Official', '0' => ''])->badge('blue');
-        $show->describe('Description')->as(function($c){return nl2br(htmlentities($c));})->unescape();
-        $show->searcheable('Searcheable')->using(['1' => 'Search OK', '0' => ''])->badge('green');
-        $show->search_url('Search URL');
-        $show->search_key('Search KEY');
-        $show->search_method('Search Method');
-        $show->search_example('Search Example');
-        //$show->release_at('Release at');
-        $show->created_at('Created at');
+        $show->name('Name');
+        $show->url('URL');
+        $show->adeleted('Deleted')->using(['1' => 'Deleted', '0' => ''])->badge('red');
+        $show->site_id('Site ID');
+        $show->rule_url('Rule URL');
+        
         $show->updated_at('Updated at');
 
         return $show;
@@ -141,24 +145,30 @@ class SiteController extends Controller
      */
     protected function form()
     {
-        $grid = Admin::form(SiteModel::class, function(Form $form){
+        $grid = Admin::form(MyModel::class, function(Form $form){
             // Displays the record id
             $form->display('id', 'ID');
+            $form->select('site_id', 'Site')->options(function(){
+                $list = \App\Models\Site::where('enable' ,'=', '1')->get();
+                $opts = [];
+                foreach ($list as $record) {
+                    $key = $record->id;
+                    $val = $record->name;
+                    //$opts[$key] = $val;
+                    $opts[$key] = $key . ' ' . $val;
+                }
+                return $opts;
+            })->rules('required');
+            $form->text('name', 'Name');
             // Add an input box of type text
-            $form->url('url', 'Site url')->rules('required');
-            $form->text('name', 'Site name')->rules('required');
-            $form->switch('official', 'Official?');
+            $form->url('url', 'URL')->rules('required');
+            $form->switch('adeleted', 'Deleted?');
             // Add textarea for the describe field
-            $form->textarea('describe', 'Description');
-            // Add a switch field
-            $form->switch('enable', 'Enabled?');
-            $form->switch('searcheable', 'Searcheable?');
-            $form->url('search_url', 'Search URL');
-            $form->text('search_method', 'Search Method');
-            $form->text('search_key', 'Search KEY');
-            $form->text('search_example', 'Search Example');
-            // Add a date and time selection box
-            //$form->datetime('release_at', 'release time')->rules('required');
+            $form->text('rule_url');
+            $form->text('rule_page_next');
+            $form->text('rule_page_prev');
+            $form->text('rule_page_last');
+            
             // Display two time column 
             $form->display('created_at', 'Created time');
             $form->display('updated_at', 'Updated time');

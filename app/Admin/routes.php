@@ -15,5 +15,8 @@ Route::group([
     $router->resource('crawler/sites', 'SiteController');
     
     $router->resource('issues', 'IssueController');
+    
+    $router->resource('book-task/roots', 'BookTaskRootController');
+    $router->post('book-task/roots/{root}/regist', 'BookTaskRootController@regist')->name('roots.task');
 
 });

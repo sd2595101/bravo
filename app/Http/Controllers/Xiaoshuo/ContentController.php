@@ -96,8 +96,8 @@ class ContentController extends Controller
         return view($view, array(
             'info' => $contentData,
             'book' => $bookInfo[0] ?? $bookInfo,
-            'prev' => $page['prev'] ? $page['prev'] . '.html' : '',
-            'next' => $page['next'] ? $page['next'] . '.html' : '',
+            'prev' => $page['prev'] ? $page['prev'] . '.html' : route('chapter',[$bookid]),
+            'next' => $page['next'] ? $page['next'] . '.html' : route('chapter',[$bookid]),
         ));
     }
     

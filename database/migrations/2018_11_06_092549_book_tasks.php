@@ -13,7 +13,20 @@ class BookTasks extends Migration
      */
     public function up()
     {
-        //
+        $connection = config('admin.database.connection') ?: config('database.default');
+
+        Schema::connection($connection)->create('book_task_roots', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 100);
+            $table->string('url', 300)->unique();
+            $table->integer('site_id');
+            $table->integer('adeleted')->default(0);
+            $table->string('rule_url')->nullable();
+            $table->string('rule_page_next')->nullable();
+            $table->string('rule_page_prev')->nullable();
+            $table->string('rule_page_last')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -24,5 +37,7 @@ class BookTasks extends Migration
     public function down()
     {
         //
+        $connection = config('admin.database.connection') ?: config('database.default');
+        Schema::connection($connection)->dropIfExists('book_task_roots');
     }
 }
