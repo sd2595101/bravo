@@ -19,9 +19,6 @@ class ZhongHengStoreTest extends TestCase
     public function testBasicTest()
     {
         $model = TaskRoot::query()->find(1);
-//        $job = new ZhongHengStore($model);
-        //$job->dispatchNow();
-//        ZhongHengStore::dispatchNow($job);
         ZhongHengStore::dispatchNow($model);
     }
 }

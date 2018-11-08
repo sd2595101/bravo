@@ -136,4 +136,9 @@ class NovelUtility
         }
         return $result;
     }
+    
+    public static function filterCate($cate)
+    {
+        return str_replace(['[', ']', ' '], '', $cate);
+    }
 }

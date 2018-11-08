@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use QL\QueryList;
 use App\Models\Book\TaskRoot;
 use App\Business\Helpers\HTTP\Client as HttpClient;
+use App\Models\Book\RawBookStd;
 
 class ZhongHengStore implements ShouldQueue
 {
@@ -62,12 +63,22 @@ class ZhongHengStore implements ShouldQueue
     public function handle()
     {
         //
-        $this->logger->info(__CLASS__ . '::' . __METHOD__ . ' start');
+        $this->logger->info(__CLASS__ . '::' . __FUNCTION__ . ' start');
 
         $task = $this->taskRoot;
-        $url = $task->getAttribute('url');
         $ruleUrl = $task->getAttribute('rule_url');
 
+        for ($page = 1; $page <= 5; $page ++) {
+            $curl = $this->makePageUrl($ruleUrl, $page);
+            // 
+            $this->crawlerOnePage($curl);
+        }
+    }
+    
+    private function crawlerOnePage($url)
+    {
+        sleep(1);
+        $this->logger->info(__CLASS__ . '::' . __FUNCTION__ . " {$url}");
         // get top page url
         if ($this->cache->has($url)) {
             $html = $this->cache->get($url);
@@ -82,12 +93,28 @@ class ZhongHengStore implements ShouldQueue
             ->query()
             ->getData();
 
-        //$info = $result[0] ?? $result;
-
-        dump($result);
-        // get top url - html
+        $this->saveData($result);
+        
+        $this->logger->info(__CLASS__ . '::' . __FUNCTION__ . " End.");
     }
-
+    
+    private function saveData($list)
+    {
+        foreach ($list as $data) {
+            $record = RawBookStd::where('author', '=', $data['author'])->where('book_name','=',$data['book_name'])->get();
+            if (!$record) {
+                RawBookStd::create($data);
+            } else {
+                RawBookStd::where('author', '=', $data['author'])->where('book_name','=',$data['book_name'])->update($data, ['upsert' => true]);
+            }
+        }
+    }
+    
+    private function makePageUrl($ruleUrl, $pageNumber)
+    {
+        return str_replace('{PageNumber}', $pageNumber, $ruleUrl);
+    }
+    
     private function crawlerRange()
     {
         return '.main_con li';
@@ -96,14 +123,18 @@ class ZhongHengStore implements ShouldQueue
     private function crawlerRoules()
     {
         return array(
-            'cate'             => ['.kind a', ['href' => 'href', 'text' => 'text']],
-            'book_name'        => ['.bookname a', ['href' => 'href', 'text' => 'text']],
-            'author'           => ['.author a', ['href' => 'href', 'text' => 'text']],
-            'last_chapter'     => ['.chap a', ['href' => 'href', 'text' => 'text']],
-            'last_chapter_vip' => ['.chap em', ['class' => 'class', 'text' => 'text']],
-            'status'           => ['.status', ['text' => 'text']],
-            'daily_click'      => ['.count', ['text' => 'text']],
-            'update_datetime'  => ['.time', ['text' => 'text']],
+            'cate' => ['.kind a', 'text', '', function($cate) {
+                    return \App\Business\Utility\NovelUtility::filterCate($cate);
+                }],
+            'book_name'         => ['.bookname a', 'text'],
+            'book_url_origin'   => ['.bookname a', 'href'],
+            'author'            => ['.author a', 'text'],
+            'last_chapter_name' => ['.chap a', 'text'],
+            'last_chapter_url'  => ['.chap a', 'href'],
+            'last_chapter_vip'  => ['.chap em', 'class'],
+            'status'            => ['.status', 'text'],
+            'daily_click'       => ['.count', 'text'],
+            'last_update'       => ['.time', 'text'],
         );
     }
 
@@ -116,7 +147,7 @@ class ZhongHengStore implements ShouldQueue
     public function failed(Exception $exception)
     {
         // Send user notification of failure, etc...
-        Log::channel('joblog')->getLogger()->error(__CLASS__ . '::' . __METHOD__ . ' failed job');
+        Log::channel('joblog')->getLogger()->error(__CLASS__ . '::' . __FUNCTION__ . ' failed job');
         Log::error($exception);
 
         // Delete the job from the queue.
