@@ -128,10 +128,6 @@ class Director
             'hide-comments' => true,
         ]);
         
-        $doc = phpQuery::newDocumentHTML($html);
-        
-        
-        
         $ql = QueryList::html($html);
         
         $result = $ql

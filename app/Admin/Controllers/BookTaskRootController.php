@@ -10,6 +10,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Encore\Admin\Facades\Admin;
 use App\Models\Book\TaskRoot as MyModel;
+use App\Jobs\ZhongHengStore;
 
 class BookTaskRootController extends Controller
 {
@@ -32,7 +33,7 @@ class BookTaskRootController extends Controller
     }
     
     /**
-     * Remove the specified resource from storage.
+     * regist task to queue.
      *
      * @param int $id
      *
@@ -40,11 +41,43 @@ class BookTaskRootController extends Controller
      */
     public function regist($id)
     {
-        //$data = $this->form()->Content();
-        // 
+        $idlist = explode(',', $id);
+        $status = false;
+        
+        $num = 0;
+        $delay = 0;
+        foreach ($idlist as $one) {
+            $model = $this->form()->model()->find($one);
+            
+            if (!$model) {
+                continue;
+                //throw new Exception('data not found : ' . $one);
+            }
+            
+            // create a job
+            $job = new ZhongHengStore($model);
+            
+            
+            // dispatch
+            if ($delay == 0) {
+                $this->dispatchNow($job);
+            } else {
+                $job->delay(now()->addMinutes($delay));
+                $this->dispatch($job);
+            }
+            
+            $num ++;
+            $delay = $delay + 1;
+        }
+        
+        
+        $status = true;
+        $message = trans('task.regist_succeeded') . '['.$num.']';
+        
+        // make json result Array.
         $data = [
-            'status'  => true,
-            'message' => trans('admin.delete_succeeded'),
+            'status'  => $status,
+            'message' => $message,
         ];
         
         return response()->json($data);

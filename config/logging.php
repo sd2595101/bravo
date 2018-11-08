@@ -76,6 +76,14 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+        
+        // job log
+        'joblog' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/laravel_job.log'),
+            'level' => 'debug',
+            'days' => 1,
+        ],
     ],
 
 ];
