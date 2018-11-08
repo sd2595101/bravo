@@ -355,13 +355,26 @@ return [
                     '-div,h1,table,script,center,span',
                     function($html) {
                         $doc = phpQuery::newDocumentHTML($html);
-                        $tags = ['div','script'];
+                        $tags = ['div','script','a'];
                         foreach ($tags as $tag) {
                             pq($doc)->find($tag)->remove();
                         }
+                        
                         $html = pq($doc)->htmlOuter();
-                        $html = trim($html, "\r\n ");
-                        $html = str_replace('顶 点 小 说 x 23 u s．c om', '', $html);
+                        $html = trim($html,"\r\n ");
+                        $html = str_replace("\r\n", "\n", $html);
+                        $html = str_replace("\n", "", $html);
+                        
+                        //dump($html);
+                        $matches = null;
+                        preg_match("/【[\s\S]*?】/i", $html, $matches);
+                        $removetext = $matches[0] ?? '';
+                        $removetextlen = strlen($removetext);
+                        if ($removetextlen >= 20 && $removetextlen <= 300) {
+                            $html = preg_replace("/【[\s\S]*?】/i", '', $html, 1);
+                        }
+                        
+                        
                         $html = str_replace('<br>', "\n", $html);
                         $ps = explode("\n",$html);
                         
