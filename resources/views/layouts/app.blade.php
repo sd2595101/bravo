@@ -21,8 +21,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/add.css') }}" rel="stylesheet">
-    
+    <!--
     <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
+    -->
+    <link href="{{ asset('css/nprogress.css') }}" rel="stylesheet">
     <!--<script src="http://im-bravo.com/vendor/laravel-admin/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js"></script>-->
     <link rel="stylesheet" href="http://im-bravo.com/vendor/laravel-admin/font-awesome/css/font-awesome.min.css">
     <script src="{{ asset('js/jquery-3.3.1.js') }}" ></script>
