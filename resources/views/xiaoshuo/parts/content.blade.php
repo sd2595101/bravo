@@ -40,3 +40,5 @@
     </a>
   </div>
 </div>
+
+@include('xiaoshuo.parts.gotop')

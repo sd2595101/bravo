@@ -19,7 +19,10 @@
 		    <div class="author" title="{{$book['uname']}}">{{$book['uname']}}</div>
 		    <a class="cate" href="{{ route('query',['q'=>$book['cname']]) }}" target="_blank" title="{{ $book['cname'] }}">{{ $book['cname'] }}</a>
 		</div>
+		<?php $contentTitle = $content['title'] ?? false; ?>
+		@if ($contentTitle!=false)
 		<div class="latest-browsing"><a href="{{ route('content', [$book['bookid'], $content['chapterid']]) }}" title="{{$content['volume']}}"><div>最近阅读：{{$content['title']}}</div></a>
+		@endif
 		</div>
 	  </div>
 
