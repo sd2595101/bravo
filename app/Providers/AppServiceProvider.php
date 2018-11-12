@@ -24,5 +24,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $this->app->singleton('markdown',function ($app){
+                return new \App\Helpers\Markdown();
+        });
     }
 }

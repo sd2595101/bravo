@@ -16,7 +16,7 @@ class IssueController extends Controller
     use HasResourceActions;
     
     const HEADER = 'Issues';
-
+    
     /**
      * Index interface.
      *
@@ -87,9 +87,8 @@ class IssueController extends Controller
         $grid->id('ID')->sortable();
         $grid->subject('Subject')->sortable();
         $grid->status('Status')->badge('blue')->sortable();
-        $grid->detail('Detail')->display(function($v){
-            return nl2br($v);
-        });
+        $grid->detail('Detail')->markdown();
+        
         
         $grid->filter(function ($filter) {
             $filter->like('subject', 'Subject');
@@ -120,7 +119,7 @@ class IssueController extends Controller
         $show->id('ID');
         $show->subject('Subject');
         $show->status('Status')->badge('blue');
-        $show->detail('Detail');
+        $show->detail('Detail')->markdown();
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -138,7 +137,7 @@ class IssueController extends Controller
             // Displays the record id
             // Add an input box of type text
             $form->text('subject', 'subject')->rules('required');
-            $form->textarea('detail', 'Detail');
+            $form->markdown('detail', 'Detail');
             $form->select('status', 'Status')->options(['Open'=>'Open','Closed'=>'Closed'])->rules('required');
             $form->display('created_at', 'Created time');
             $form->display('updated_at', 'Updated time');
