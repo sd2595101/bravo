@@ -141,10 +141,10 @@ class ZhongHengStoreAbstract implements ShouldQueue
     /**
      * The job failed to process.
      *
-     * @param  Exception  $exception
+     * @param  \Exception  $exception
      * @return void
      */
-    public function failed(Exception $exception)
+    public function failed(\Exception $exception)
     {
         // Send user notification of failure, etc...
         Log::channel('joblog')->getLogger()->error(__CLASS__ . '::' . __FUNCTION__ . ' failed job');

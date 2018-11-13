@@ -75,7 +75,9 @@
     </nav>
     <div id="app">
       <main class="py-4 content-body" id="pjax-container">
+        <div class="container">
         @yield('content')
+        </div>
       </main>
     </div>
     <script src="http://im-bravo.com/vendor/laravel-admin/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js"></script>

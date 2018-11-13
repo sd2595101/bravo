@@ -1,9 +1,7 @@
 <?php
 namespace App\Business\Utility;
 
-use QL\QueryList;
 use phpQuery;
-use App\Business\Utility\StringUtility;
 use Illuminate\Support\Facades\Log;
 
 class AI
@@ -52,8 +50,8 @@ class AI
     
     /**
      * 
-     * @param type $url
-     * @param type $return PHP_URL_SCHEME, PHP_URL_HOST, PHP_URL_PORT, PHP_URL_USER, PHP_URL_PASS, PHP_URL_PATH, PHP_URL_QUERY or PHP_URL_FRAGMENT
+     * @param string $url
+     * @param int $return PHP_URL_SCHEME, PHP_URL_HOST, PHP_URL_PORT, PHP_URL_USER, PHP_URL_PASS, PHP_URL_PATH, PHP_URL_QUERY or PHP_URL_FRAGMENT
      */
     public static function parseUrl($url, $return = PHP_URL_HOST)
     {
@@ -72,8 +70,8 @@ class AI
     
     /**
      * 
-     * @param type $html
-     * @param type $url
+     * @param string $html
+     * @param string $url
      * @return string
      */
     public static function findChapterListUrl($html, $url)
@@ -109,7 +107,6 @@ class AI
     }
     public static function findContentUrl($chapterListHtml, $chapterTitle, $url)
     {
-        $base = self::getUrlBase($url);
         $allLinks = self::findAllSiteLinks($chapterListHtml, $url);
         
         return self::findContentUrlByLinks($chapterTitle, $allLinks);
@@ -180,7 +177,6 @@ class AI
     public static function findAllSiteLinks($html, $pageUrl = null)
     {
         
-        $pqObj = phpQuery::newDocumentHTML($html);
         $charset = self::getCharset($html);
         if ($charset != self::INTERNAL_ENCODING) {
             // if need iconv

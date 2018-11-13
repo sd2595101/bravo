@@ -47,7 +47,7 @@ class Client
             $response = $client->request('GET', $url, $requestOption);
             $html = $response->getBody()->getContents();
             $this->logger->info('http client request finished [ status : ' . $response->getStatusCode() . ']');
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
             $this->logger->warn('http client request error : ' . $url);
             $this->logger->warn($ex);
             throw $ex;

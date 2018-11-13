@@ -1,14 +1,12 @@
-<div class="container-fluid  ">
   <div class="row">
     <di class="col bravo-h1">阅读足迹</h1>
   </div>
-  <div class="">
+  <div class="w-100">
 	<div class="col history clearfix">
 	@foreach ($historys as $history)
 	<?php $book = $history['book']; $content = $history['content'] ?>
 	
 
-	  
 	  <div class="history-item">
 	    <div class="image-box float-left">
 	      <img src="{{$book['image']}}" class="inner" />
@@ -35,4 +33,3 @@
 
 
     
-</div>

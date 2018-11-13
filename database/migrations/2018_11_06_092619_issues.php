@@ -19,7 +19,7 @@ class Issues extends Migration
         Schema::connection($connection)->create('issues', function (Blueprint $table) {
             $table->increments('id');
             $table->string('subject', 100);
-            $table->string('detail')->nullable();
+            $table->text('detail')->nullable();
             $table->enum('status', ['Open','Closed'])->default('Open');
             $table->timestamps();
         });
