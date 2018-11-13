@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid ">
     @foreach ($booklist as $book)
     <div class="row border-bottom list">
         <div class="col-3 col-sm-3 col-md-2 col-lg-2 ">
@@ -39,5 +38,6 @@
         </div>
     </div>
     @endforeach
-</div>
+    @include('xiaoshuo.parts.gotop')
 @endsection
+

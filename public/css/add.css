@@ -126,7 +126,10 @@ li, ol, ul {
     font-size: 14px;
     color: #333;
     letter-spacing: .93px;
-    width: 180px;
+    width: 40%;
+}
+.chapter_opbox a.menu {
+    width: 20%;
 }
 @media (min-width: 576px) {
 	.container {

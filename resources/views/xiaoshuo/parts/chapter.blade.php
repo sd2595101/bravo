@@ -39,3 +39,5 @@
     @endforeach
   </div>
 </div>
+
+@include('xiaoshuo.parts.gotop')
