@@ -18,7 +18,7 @@ class RawBookStd extends Model
         'last_chapter_url',
         'last_chapter_vip',
         'status',
-        'daily_click',
+        'click',
         'last_update',
     ];
 }

@@ -10,7 +10,6 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Encore\Admin\Facades\Admin;
 use App\Models\Book\TaskRoot as MyModel;
-use App\Jobs\ZhongHengStore;
 
 class BookTaskRootController extends Controller
 {
@@ -55,8 +54,7 @@ class BookTaskRootController extends Controller
             }
             
             // create a job
-            $job = new ZhongHengStore($model);
-            
+            $job = $model->createJob();
             
             // dispatch
             if ($delay == 0) {
@@ -139,6 +137,8 @@ class BookTaskRootController extends Controller
 
         $grid->id('ID')->sortable();
         $grid->name('Name')->sortable();
+        $grid->job_class_name('Job');
+        $grid->job_refresh_page('Reading Page');
         $grid->url('URL')->link();
         
         $grid->filter(function ($filter) {
@@ -178,7 +178,17 @@ class BookTaskRootController extends Controller
      */
     protected function form()
     {
-        $grid = Admin::form(MyModel::class, function(Form $form){
+        $options = array(
+            \App\Jobs\ZhongHengStore::class,
+            \App\Jobs\ZhongHengStoreDetail::class,
+        );
+        
+        $selectableJobs = [];
+        foreach ($options as $o) {
+            $selectableJobs[$o] = class_basename($o);
+        }
+        
+        $grid = Admin::form(MyModel::class, function(Form $form) use ($selectableJobs){
             // Displays the record id
             $form->display('id', 'ID');
             $form->select('site_id', 'Site')->options(function(){
@@ -192,11 +202,14 @@ class BookTaskRootController extends Controller
                 }
                 return $opts;
             })->rules('required');
-            $form->text('name', 'Name');
+            $form->text('name', 'Name')->rules('required');
             // Add an input box of type text
             $form->url('url', 'URL')->rules('required');
+//             $form->url('url', 'URL')->rules('required');
             $form->switch('adeleted', 'Deleted?');
             // Add textarea for the describe field
+            $form->radio('job_class_name')->options($selectableJobs)->rules('required');
+            $form->number('job_refresh_page', 'Reading Page')->default(10)->rules('required');
             $form->text('rule_url');
             $form->text('rule_page_next');
             $form->text('rule_page_prev');

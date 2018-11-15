@@ -136,6 +136,7 @@ return [
                         '',
                         function ($href) {
                             $pregPattern = "/http:\/\/book.zongheng.com\/book\/(\d+)\.html/";
+                            $matches = null;
                             if (preg_match($pregPattern, $href, $matches)) {
                                 return $matches[ 1 ];
                             }
@@ -205,6 +206,7 @@ return [
                     '',
                     function ($href) {
                         $pregPattern = "/http:\/\/book.zongheng.com\/showchapter\/(\d+)\.html/";
+                        $matches = null;
                         if (preg_match($pregPattern, $href, $matches)) {
                             return $matches[ 1 ];
                         }
@@ -212,6 +214,7 @@ return [
                 ],
                 'category_id' => ['.crumb a:last', 'href', '', function($href) {
                         $pregPattern = "/category\/(\d+)\.html/";
+                        $matches = null;
                         if (preg_match($pregPattern, $href, $matches)) {
                             return $matches[ 1 ];
                         }

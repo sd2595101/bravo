@@ -12,13 +12,15 @@ class RawBookDetail extends Model
     protected $fillable = [
         'cate',
         'book_name',
+        'book_cover',
         'book_url_origin',
         'author',
         'last_chapter_name',
         'last_chapter_url',
         'last_chapter_vip',
         'status',
-        'daily_click',
+        'click',
         'last_update',
+        'desc',
     ];
 }
