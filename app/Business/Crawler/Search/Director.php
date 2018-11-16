@@ -18,7 +18,7 @@ class Director
 	    $key = __CLASS__.'::'.__FUNCTION__ .'::keyword::'.$keyword;
 	    
 	    if (!Cache::has($key)) {
-	        Cache::forever($key, $this->rebuild($keyword));
+	        Cache::set($key, $this->rebuild($keyword), 60 * 12);
 	    }
 	    
 	    return Cache::get($key);

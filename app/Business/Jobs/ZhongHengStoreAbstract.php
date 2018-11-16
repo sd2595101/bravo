@@ -63,8 +63,8 @@ abstract class ZhongHengStoreAbstract implements ShouldQueue
     public function handle()
     {
         //
-        $this->logger->info('############################################################');
-        $this->logger->info(__CLASS__ . '::' . __FUNCTION__ . ' start');
+        $this->logger->info('######################## START ###############################');
+        $this->logger->info(get_class($this) . '::' . __FUNCTION__ . ' start');
 
         $task = $this->taskRoot;
         $ruleUrl = $task->getAttribute('rule_url');
@@ -75,14 +75,14 @@ abstract class ZhongHengStoreAbstract implements ShouldQueue
             // 
             $this->crawlerOnePage($curl);
         }
-        $this->logger->info(__CLASS__ . '::' . __FUNCTION__ . ' end');
-        $this->logger->info('############################################################');
+        $this->logger->info(get_class($this) . '::' . __FUNCTION__ . ' end');
+        $this->logger->info('#######################  END  ################################');
     }
     
     protected function crawlerOnePage($url)
     {
-        sleep(1);
-        $this->logger->info(__CLASS__ . '::' . __FUNCTION__ . " {$url}");
+        usleep(500);
+        $this->logger->info(get_class($this) . '::' . __FUNCTION__ . " {$url}");
         // get top page url
         if ($this->cache->has($url)) {
             $html = $this->cache->get($url);
@@ -99,7 +99,7 @@ abstract class ZhongHengStoreAbstract implements ShouldQueue
 
         $this->saveData($result);
         
-        $this->logger->info(__CLASS__ . '::' . __FUNCTION__ . " End.");
+        $this->logger->info(get_class($this) . '::' . __FUNCTION__ . " End.");
     }
     
     
@@ -119,7 +119,7 @@ abstract class ZhongHengStoreAbstract implements ShouldQueue
     public function failed(\Exception $exception)
     {
         // Send user notification of failure, etc...
-        Log::channel('joblog')->getLogger()->error(__CLASS__ . '::' . __FUNCTION__ . ' failed job');
+        Log::channel('joblog')->getLogger()->error(get_class($this) . '::' . __FUNCTION__ . ' failed job');
         Log::error($exception);
 
         // Delete the job from the queue.

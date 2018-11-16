@@ -57,15 +57,18 @@ class BookTaskRootController extends Controller
             $job = $model->createJob();
             
             // dispatch
-            if ($delay == 0) {
-                $this->dispatchNow($job);
-            } else {
-                $job->delay(now()->addMinutes($delay));
-                $this->dispatch($job);
-            }
+            //             if ($delay == 0) {
+            //                 $this->dispatchNow($job);
+            //             } else {
+            //                 $job->delay(now()->addMinutes($delay));
+            //                 $this->dispatch($job);
+            //             }
+            
+            // now
+            $this->dispatchNow($job);
             
             $num ++;
-            $delay = $delay + 1;
+            //$delay = $delay + 1;
         }
         
         
@@ -138,8 +141,8 @@ class BookTaskRootController extends Controller
         $grid->id('ID')->sortable();
         $grid->name('Name')->sortable();
         $grid->job_class_name('Job');
-        $grid->job_refresh_page('Reading Page');
-        $grid->url('URL')->link();
+        $grid->job_refresh_page('Page');
+        $grid->rule_url('URL')->link();
         
         $grid->filter(function ($filter) {
             $filter->like('name', 'Name');
@@ -165,6 +168,14 @@ class BookTaskRootController extends Controller
         $show->adeleted('Deleted')->using(['1' => 'Deleted', '0' => ''])->badge('red');
         $show->site_id('Site ID');
         $show->rule_url('Rule URL');
+        $show->job_class_name();
+        $show->job_refresh_page();
+        $show->rule_url();
+        $show->rule_page_next();
+        $show->rule_page_prev();
+        $show->rule_page_last();
+        
+        
         
         $show->updated_at('Updated at');
 

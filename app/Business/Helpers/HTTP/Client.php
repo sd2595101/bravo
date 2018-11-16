@@ -30,7 +30,7 @@ class Client
 
     public function get($url)
     {
-        $this->logger->info('http client request start : ' . $url);
+        $this->logger->info(get_class($this) . ' http client request start : ' . $url);
         $client = $this->client();
         
         $requestOption = [
@@ -46,9 +46,9 @@ class Client
             
             $response = $client->request('GET', $url, $requestOption);
             $html = $response->getBody()->getContents();
-            $this->logger->info('http client request finished [ status : ' . $response->getStatusCode() . ']');
+            $this->logger->info(get_class($this) . ' http client request finished [ status : ' . $response->getStatusCode() . ']');
         } catch (\Exception $ex) {
-            $this->logger->warn('http client request error : ' . $url);
+            $this->logger->warn(get_class($this) . ' http client request error : ' . $url);
             $this->logger->warn($ex);
             throw $ex;
         }

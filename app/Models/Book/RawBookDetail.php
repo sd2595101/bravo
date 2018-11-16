@@ -19,7 +19,7 @@ class RawBookDetail extends Model
         'last_chapter_url',
         'last_chapter_vip',
         'status',
-        'click',
+        'count',
         'last_update',
         'desc',
     ];

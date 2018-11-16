@@ -10,7 +10,10 @@ class Search implements SearchBuilderInterface
 	{
         $queryUrl  = config('sites.zhongheng.query.url');
         $paramName = config('sites.zhongheng.query.key');
-        return $queryUrl . '?' . http_build_query(array($paramName => $keyword));
+        return $queryUrl . '?' . http_build_query([
+            $paramName => $keyword,
+            'sort' => 'totalRecommend',
+        ]);
 	}
 
 	public function range()

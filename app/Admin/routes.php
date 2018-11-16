@@ -18,5 +18,6 @@ Route::group([
     
     $router->resource('book-task/roots', 'BookTaskRootController');
     $router->post('book-task/roots/{root}/regist', 'BookTaskRootController@regist')->name('roots.task');
+    $router->resource('book-task/storages', 'RawBookDetailController');
 
 });

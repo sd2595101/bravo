@@ -40,14 +40,30 @@ class ZhongHengStoreDetail extends ZhongHengStoreAbstract implements ShouldQueue
     
     protected function saveData($list)
     {
+        $insert = 0;
+        $update = 0;
+        $this->logger->info(get_class($this) . '::' . __FUNCTION__ . " start");
         foreach ($list as $data) {
             $record = RawBookDetail::where('author', '=', $data['author'])->where('book_name','=',$data['book_name'])->get();
             if (!$record) {
                 RawBookDetail::create($data);
+                $insert ++;
             } else {
                 RawBookDetail::where('author', '=', $data['author'])->where('book_name','=',$data['book_name'])->update($data, ['upsert' => true]);
+                $update ++;
             }
         }
+        
+        $this->logger->debug('Number Of Insert - ' . $insert);
+        $this->logger->debug('Number Of Upsert - ' . $update);
+        $this->logger->info(get_class($this) . '::' . __FUNCTION__ . " end");
+        
+        $this->otherLinkagek($list);
+    }
+    
+    protected function otherLinkagek($list)
+    {
+        
     }
     
 }
